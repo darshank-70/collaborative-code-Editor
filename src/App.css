@@ -1,0 +1,69 @@
+/*
+Theme: Midnight ocean 
+Background: #17202A
+Text: #FDFEFE
+Accent: #2980B9 (Blue)
+ */
+
+.home {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fdfefe;
+}
+
+.logo-img {
+  width: 40px;
+}
+
+.form-wrapper {
+  padding: 18px 30px;
+  border-radius: 18px;
+  width: 400px;
+  max-width: 90%;
+  background-color: #2980b9;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.create-room-btn {
+  color: #091d3e;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.create-room-btn:hover {
+  color: #041227;
+  text-decoration: underline;
+  transition: all 0.3s;
+}
+
+input {
+  color: #253f4b;
+  background-color: #fdfefe;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 9px;
+}
+
+.btn {
+  background-color: #091d3e;
+  border: none;
+  padding: 6px 12px;
+  color: #fdfefe;
+  font-weight: bold;
+  width: 84px;
+  cursor: pointer;
+  border-radius: 9px;
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  background-color: #041227;
+  transition: all 0.3s;
+}
