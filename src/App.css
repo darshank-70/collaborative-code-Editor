@@ -67,6 +67,7 @@ input {
   background-color: #041227;
   transition: all 0.3s;
 }
+
 /* Editor */
 .main-wrap {
   display: grid;
@@ -126,4 +127,11 @@ input {
 .copy-btn {
   color: #fff;
   background-color: #424242;
+}
+
+.CodeMirror {
+  min-height: calc(100vh-20px);
+  font-size: 20px;
+  line-height: 1.6;
+  padding-top: 20px;
 }
