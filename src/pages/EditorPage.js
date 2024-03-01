@@ -22,6 +22,7 @@ function EditorPage() {
   useEffect(() => {
     const init = async () => {
       socketRef.current = await initSocket();
+      console.log(socketRef);
       socketRef.current.on("connect_error", (err) => handleErrors(err));
       socketRef.current.on("connect_failed", (err) => handleErrors(err));
 
@@ -30,9 +31,11 @@ function EditorPage() {
         toast.error("Socket connection failed, try again later.");
         reactNavigator("/");
       }
+      console.log("clients in EditorPage line33", clients);
+      console.log("location in EditorPage: ", location);
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
-        userName: location.state?.userName,
+        username: location.state?.username,
       });
       socketRef.current.on(
         ACTIONS.JOINED,
@@ -55,15 +58,16 @@ function EditorPage() {
           return prev.filter((client) => client.socketId !== socketId);
         });
       });
-    };
+    }; //init()
+    console.log("socketRef before INIT", socketRef);
 
     init();
+    console.log("socketRef After INIT", socketRef);
+
     return () => {
-      if (socketRef.current !== null) {
-        socketRef.current.disconnect();
-        socketRef.current.off(ACTIONS.JOINED);
-        socketRef.current.off(ACTIONS.DISCONNECTED);
-      }
+      //socketRef.current.disconnect();
+     // socketRef.current.off(ACTIONS.JOINED);
+      //socketRef.current.off(ACTIONS.DISCONNECTED);
     };
   }, []);
 
@@ -89,7 +93,7 @@ function EditorPage() {
         <button className="btn leave-btn">Leave</button>
       </div>
       <div className="editor-wrap">
-        <Editor />
+        <Editor socketRef={socketRef} roomId={roomId} />
       </div>
     </div>
   );

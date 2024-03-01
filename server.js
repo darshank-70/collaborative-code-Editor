@@ -1,7 +1,7 @@
+const ACTIONS = require("./src/Actions");
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
-
 const app = express();
 const server = http.createServer(app); //http server
 const io = new Server(server); //upgrading to io server
@@ -24,6 +24,8 @@ io.on("connection", (socket) => {
     userSocketMap[socket.id] = username;
     socket.join(roomId);
     const clients = getAllConnectedClients(roomId);
+    console.log(clients);
+
     clients.forEach(({ socketId }) => {
       io.to(socketId).emit(ACTIONS.JOINED, {
         clients,
@@ -31,6 +33,10 @@ io.on("connection", (socket) => {
         socketId: socket.id,
       });
     });
+  });
+  socket.on(ACTIONS.CODE_CHANGE, ({ roomID, code }) => {
+    //prevent the code update to person who typed
+    socket.in(roomID).emit(ACTIONS.CODE_CHANGE, { roomID });
   });
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
@@ -45,7 +51,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   console.log("running on port", PORT);

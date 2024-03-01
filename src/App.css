@@ -81,11 +81,12 @@ input {
   display: flex;
   flex-direction: column;
 }
-.asidenner {
+.aside-inner {
   flex: 1;
 }
 
 .clients-list {
+  background-color: #fdfefe;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
