@@ -86,7 +86,7 @@ input {
 }
 
 .clients-list {
-  background-color: #fdfefe;
+  /* background-color: #fdfefe; */
   display: flex;
   align-items: center;
   flex-wrap: wrap;

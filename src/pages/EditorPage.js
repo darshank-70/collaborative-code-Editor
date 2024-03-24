@@ -22,7 +22,6 @@ function EditorPage() {
   useEffect(() => {
     const init = async () => {
       socketRef.current = await initSocket();
-      console.log(socketRef);
       socketRef.current.on("connect_error", (err) => handleErrors(err));
       socketRef.current.on("connect_failed", (err) => handleErrors(err));
 
@@ -31,12 +30,13 @@ function EditorPage() {
         toast.error("Socket connection failed, try again later.");
         reactNavigator("/");
       }
-      console.log("clients in EditorPage line33", clients);
-      console.log("location in EditorPage: ", location);
+
       socketRef.current.emit(ACTIONS.JOIN, {
         roomId,
         username: location.state?.username,
       });
+
+      // listening for joined
       socketRef.current.on(
         ACTIONS.JOINED,
         ({ clients, username, socketId }) => {
@@ -58,16 +58,15 @@ function EditorPage() {
           return prev.filter((client) => client.socketId !== socketId);
         });
       });
-    }; //init()
-    console.log("socketRef before INIT", socketRef);
+    };
 
     init();
-    console.log("socketRef After INIT", socketRef);
-
     return () => {
-      //socketRef.current.disconnect();
-     // socketRef.current.off(ACTIONS.JOINED);
-      //socketRef.current.off(ACTIONS.DISCONNECTED);
+      if (socketRef.current !== null) {
+        socketRef.current.disconnect();
+        socketRef.current.off(ACTIONS.JOINED);
+        socketRef.current.off(ACTIONS.DISCONNECTED);
+      }
     };
   }, []);
 
