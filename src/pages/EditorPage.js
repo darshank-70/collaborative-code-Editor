@@ -11,6 +11,55 @@ import {
   useParams,
 } from "react-router-dom";
 
+const YourComponent = ({ code }) => {
+  const [compiledCode, setCompiledCode] = useState("");
+  const [error, setError] = useState(null);
+  const [stdErr, setStdErr] = useState(null);
+
+  const compileCode = async () => {
+    console.log(code);
+    try {
+      const response = await fetch("http://localhost:9000/compile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "b0e0ee4f-07b8-4206-a631-112e16b75234", // Replace with your Glot.io API token
+        },
+        body: JSON.stringify({
+          files: [
+            {
+              name: "main.js",
+              content: code,
+            },
+          ],
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setCompiledCode(data.stdout);
+        setError(data.error);
+
+        console.log("OUTPUTTTTTTTT:", data);
+        setStdErr(data.stderr);
+      } else {
+        setError(data.stderr);
+        setStdErr(data.stderr);
+      }
+    } catch (error) {
+      setError("An error occurred while compiling the code.");
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={compileCode}>Compile</button>
+      {compiledCode && <pre>{compiledCode}</pre>}
+      {error && <div>{error}</div>}
+      {error && `${error} ${stdErr}`}
+    </div>
+  );
+};
+
 function EditorPage() {
   const socketRef = useRef(null);
   const location = useLocation();
@@ -18,6 +67,7 @@ function EditorPage() {
   const reactNavigator = useNavigate();
   const { roomId } = useParams();
   const [clients, setClients] = useState([]);
+  const [code, setCode] = useState(""); // State to hold the code
 
   useEffect(() => {
     const init = async () => {
@@ -92,7 +142,16 @@ function EditorPage() {
         <button className="btn leave-btn">Leave</button>
       </div>
       <div className="editor-wrap">
-        <Editor socketRef={socketRef} roomId={roomId} />
+        {/* Pass code and setCode as props */}
+        <Editor
+          socketRef={socketRef}
+          roomId={roomId}
+          code={code}
+          setCode={setCode}
+        />
+        <h2>Code Compiler</h2>
+        <YourComponent code={code} />
+        {console.log("working code:  ", code)}
       </div>
     </div>
   );
