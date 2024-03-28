@@ -13,8 +13,9 @@ app.use(json());
 app.post("/compile", async (req, res) => {
   try {
     console.log(req);
+    const language = req.body.language;
     const fetch = (await import("node-fetch")).default; // Dynamic import
-    const response = await fetch("https://glot.io/api/run/javascript/latest", {
+    const response = await fetch(`https://glot.io/api/run/${language}/latest`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +24,7 @@ app.post("/compile", async (req, res) => {
       body: JSON.stringify({
         files: [
           {
-            name: "main.js",
+            name: req.body.files[0].name,
             content: req.body.files[0].content,
           },
         ],

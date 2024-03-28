@@ -73,6 +73,14 @@ function EditorPage() {
   const [code, setCode] = useState(""); // State to hold the code
   const [dataRecieved, setDataRecieved] = useState(null);
   const [isCompiled, setCompiled] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("javascript");
+  const [filename, setFilename] = useState("main.js");
+  const fileExt = {
+    javascript: "main.js",
+    java: "main.java",
+    python: "main.py",
+    c: "main.c",
+  };
   useEffect(() => {
     const init = async () => {
       socketRef.current = await initSocket();
@@ -127,8 +135,13 @@ function EditorPage() {
   if (!location.state) {
     return <Navigate to="/" />;
   }
+  function handleLangSelect(e) {
+    console.log(e.target.value);
+    setCurrentLanguage(e.target.value);
+    setFilename(fileExt[e.target.value]);
+  }
   async function handleCompileClick() {
-    let dataRecieved = await compileCode(code);
+    let dataRecieved = await compileCode(code, currentLanguage, filename);
     console.log(dataRecieved);
     setDataRecieved(dataRecieved);
     setCompiled(true);
@@ -139,6 +152,14 @@ function EditorPage() {
         <div className="aside-inner">
           <div className="logo">
             <img className="logo-image" src="" alt="logo" />
+          </div>
+          <div className="language-select">
+            <select onChange={handleLangSelect} value={currentLanguage}>
+              <option value={"javascript"}>javascript</option>
+              <option value={"python"}>python</option>
+              <option value={"java"}>Java</option>
+              <option value={"c"}>C</option>
+            </select>
           </div>
           <div className="compile-button">
             <button onClick={handleCompileClick}>compile Code</button>

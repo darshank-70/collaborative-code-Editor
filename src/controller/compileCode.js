@@ -1,4 +1,4 @@
-const compileCode = async (code) => {
+const compileCode = async (code, language, filename) => {
   console.log(code);
   try {
     const response = await fetch("http://localhost:9000/compile", {
@@ -8,9 +8,10 @@ const compileCode = async (code) => {
         Authorization: "b0e0ee4f-07b8-4206-a631-112e16b75234", // Replace with your Glot.io API token
       },
       body: JSON.stringify({
+        language: language,
         files: [
           {
-            name: "main.js",
+            name: filename,
             content: code,
           },
         ],
