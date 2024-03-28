@@ -4,7 +4,9 @@ Background: #17202A
 Text: #FDFEFE
 Accent: #2980B9 (Blue)
  */
-
+.output-window {
+  color: #fff;
+}
 .home {
   height: 100vh;
   display: flex;

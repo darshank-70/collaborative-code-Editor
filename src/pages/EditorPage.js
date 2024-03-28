@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { StrictMode, useEffect, useRef, useState } from "react";
 import Client from "../components/Client";
 import Editor from "../components/Editor";
+import Output from "../components/Output";
 import { initSocket } from "../socket";
 import ACTIONS from "../Actions";
 import toast from "react-hot-toast";
@@ -10,55 +11,57 @@ import {
   Navigate,
   useParams,
 } from "react-router-dom";
+import compileCode from "../controller/compileCode";
 
-const YourComponent = ({ code }) => {
-  const [compiledCode, setCompiledCode] = useState("");
-  const [error, setError] = useState(null);
-  const [stdErr, setStdErr] = useState(null);
+// const YourComponent = ({ code }) => {
+//   const [compiledCode, setCompiledCode] = useState(null);
+//   const [error, setError] = useState(null);
+//   const [stdErr, setStdErr] = useState(null);
 
-  const compileCode = async () => {
-    console.log(code);
-    try {
-      const response = await fetch("http://localhost:9000/compile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "b0e0ee4f-07b8-4206-a631-112e16b75234", // Replace with your Glot.io API token
-        },
-        body: JSON.stringify({
-          files: [
-            {
-              name: "main.js",
-              content: code,
-            },
-          ],
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setCompiledCode(data.stdout);
-        setError(data.error);
+//   const compileCode = async () => {
+//     console.log(code);
+//     try {
+//       const response = await fetch("http://localhost:9000/compile", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: "b0e0ee4f-07b8-4206-a631-112e16b75234", // Replace with your Glot.io API token
+//         },
+//         body: JSON.stringify({
+//           files: [
+//             {
+//               name: "main.js",
+//               content: code,
+//             },
+//           ],
+//         }),
+//       });
+//       const data = await response.json();
+//       if (response.ok) {
+//         setCompiledCode(data.stdout);
+//         setError(data.error);
 
-        console.log("OUTPUTTTTTTTT:", data);
-        setStdErr(data.stderr);
-      } else {
-        setError(data.stderr);
-        setStdErr(data.stderr);
-      }
-    } catch (error) {
-      setError("An error occurred while compiling the code.");
-    }
-  };
+//         console.log("OUTPUTTTTTTTT:", data);
+//         setStdErr(data.stderr);
+//       } else {
+//         setError(data.stderr);
+//         setStdErr(data.stderr);
+//       }
+//     } catch (error) {
+//       setError("An error occurred while compiling the code.");
+//     }
+//   };
 
-  return (
-    <div>
-      <button onClick={compileCode}>Compile</button>
-      {compiledCode && <pre>{compiledCode}</pre>}
-      {error && <div>{error}</div>}
-      {error && `${error} ${stdErr}`}
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <button onClick={compileCode}>Compile</button>
+//       {compiledCode} &&{" "}
+//       <Output
+//         props={{ compiledCode: compiledCode, error: error, stdErr: stdErr }}
+//       />
+//     </div>
+//   );
+// };
 
 function EditorPage() {
   const socketRef = useRef(null);
@@ -68,7 +71,8 @@ function EditorPage() {
   const { roomId } = useParams();
   const [clients, setClients] = useState([]);
   const [code, setCode] = useState(""); // State to hold the code
-
+  const [dataRecieved, setDataRecieved] = useState(null);
+  const [isCompiled, setCompiled] = useState(false);
   useEffect(() => {
     const init = async () => {
       socketRef.current = await initSocket();
@@ -123,13 +127,21 @@ function EditorPage() {
   if (!location.state) {
     return <Navigate to="/" />;
   }
-
+  async function handleCompileClick() {
+    let dataRecieved = await compileCode(code);
+    console.log(dataRecieved);
+    setDataRecieved(dataRecieved);
+    setCompiled(true);
+  }
   return (
     <div className="main-wrap">
       <div className="aside">
         <div className="aside-inner">
           <div className="logo">
             <img className="logo-image" src="" alt="logo" />
+          </div>
+          <div className="compile-button">
+            <button onClick={handleCompileClick}>compile Code</button>
           </div>
           <h3>Connected</h3>
           <div className="clients-list">
@@ -149,10 +161,11 @@ function EditorPage() {
           code={code}
           setCode={setCode}
         />
-        <h2>Code Compiler</h2>
-        <YourComponent code={code} />
-        {console.log("working code:  ", code)}
+
+        {/* <YourComponent code={code} /> */}
+        {/* {console.log("working code:  ", code)} */}
       </div>
+      {isCompiled && dataRecieved && <Output data={dataRecieved} />}
     </div>
   );
 }
