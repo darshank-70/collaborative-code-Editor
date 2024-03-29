@@ -1,4 +1,4 @@
-const compileCode = async (code, language, filename) => {
+const compileCode = async (code, language, filename, stdin) => {
   console.log(code);
   try {
     const response = await fetch("http://localhost:9000/compile", {
@@ -9,6 +9,7 @@ const compileCode = async (code, language, filename) => {
       },
       body: JSON.stringify({
         language: language,
+        stdin: stdin,
         files: [
           {
             name: filename,

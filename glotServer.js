@@ -28,6 +28,7 @@ app.post("/compile", async (req, res) => {
             content: req.body.files[0].content,
           },
         ],
+        stdin: req.body.stdin,
       }),
     });
 

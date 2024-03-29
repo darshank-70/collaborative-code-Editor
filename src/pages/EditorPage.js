@@ -75,6 +75,7 @@ function EditorPage() {
   const [isCompiled, setCompiled] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
   const [filename, setFilename] = useState("main.js");
+  const [stdin, setStdin] = useState("");
   const fileExt = {
     javascript: "main.js",
     java: "main.java",
@@ -141,7 +142,14 @@ function EditorPage() {
     setFilename(fileExt[e.target.value]);
   }
   async function handleCompileClick() {
-    let dataRecieved = await compileCode(code, currentLanguage, filename);
+    let textbox = document.querySelector("#stdin-text");
+    console.log(textbox.value);
+    let dataRecieved = await compileCode(
+      code,
+      currentLanguage,
+      filename,
+      textbox.value
+    );
     console.log(dataRecieved);
     setDataRecieved(dataRecieved);
     setCompiled(true);
@@ -163,6 +171,13 @@ function EditorPage() {
           </div>
           <div className="compile-button">
             <button onClick={handleCompileClick}>compile Code</button>
+          </div>
+          <div className="stdin-textbox">
+            <label>
+              {" "}
+              Inputs:{" "}
+              <input type="text" placeholder="Standard input" id="stdin-text" />
+            </label>
           </div>
           <h3>Connected</h3>
           <div className="clients-list">
