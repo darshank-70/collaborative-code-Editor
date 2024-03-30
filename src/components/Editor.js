@@ -50,7 +50,9 @@ function Editor({ socketRef, roomId, code, setCode }) {
     }
   }, [socketRef.current]);
 
-  return <textarea id="realtime-editor"></textarea>;
+  return (
+    <textarea id="realtime-editor" style={{ fontSize: "12px" }}></textarea>
+  );
 }
 
 export default Editor;

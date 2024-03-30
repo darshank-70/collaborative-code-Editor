@@ -74,6 +74,7 @@ input {
 .main-wrap {
   display: grid;
   grid-template-columns: 230px 1fr;
+  /* height: 100%; */
 }
 
 .aside {
@@ -88,11 +89,10 @@ input {
 }
 
 .clients-list {
-  /* background-color: #fdfefe; */
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-bottom: 12px;
 }
 
 .client {
@@ -117,15 +117,13 @@ input {
   width: 100%;
   margin-top: 20px;
 }
-.join-btn,
-.leave-btn {
-  background: #4aed88;
+.join-btn {
+  background: #091d3e;
   width: 100px;
   margin-left: auto;
 }
-.join-btn:hover,
-.leave-btn :hover {
-  background: #2b824c;
+.join-btn:hover {
+  background: #17202a;
 }
 .copy-btn {
   color: #fff;
@@ -137,4 +135,74 @@ input {
   font-size: 20px;
   line-height: 1.6;
   padding-top: 20px;
+}
+
+.language-select {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+.select-lang {
+  font-size: 18px;
+  margin-bottom: 5px !important;
+}
+
+.combo-box {
+  border: none;
+  color: #253f4b;
+  outline: none;
+  border-radius: 7px;
+  padding: 5px 10px;
+}
+
+.stdin-textbox {
+  margin-bottom: 20px;
+}
+
+.label-input {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+#stdin-text {
+  padding: 5px 10px !important;
+  outline: none;
+}
+
+.run-btn {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #2980b9;
+  color: #fff;
+  padding: 5px 30px;
+  font-weight: bold;
+  border-radius: 9px;
+  transition: all 0.3s;
+}
+
+.run-btn:hover {
+  background-color: #1a4c6d;
+  transition: all 0.3s;
+}
+
+.leave-btn {
+  background-color: #2980b9;
+}
+
+.leave-btn:hover {
+  background-color: #1a4c6d;
+}
+
+.copy-btn {
+  width: 100%;
+}
+.copy-btn:hover {
+  background-color: #323232;
+}
+.output-window {
+  margin-left: 20px;
+}
+
+.error {
+  color: red;
 }
