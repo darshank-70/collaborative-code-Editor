@@ -22,13 +22,17 @@ export default function Home() {
     }
 
     // REDIRECT
-    toast.success("Room created successfully!");
+    toast.success("Room Joined successfully!");
 
     navigate(`/editor/${roomId}`, {
       state: {
         username,
       },
     });
+    // guidelines
+    alert(
+      "STANDARD GUIDELINES:\n 1. Give input before run and use blank space between inputs.\n 2. Always use Main as class name.\n"
+    );
   }
 
   function handleInputEnter(e) {

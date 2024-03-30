@@ -29,6 +29,9 @@ function EditorPage() {
   const [filename, setFilename] = useState("main.js");
   const [stdin, setStdin] = useState("");
 
+  //theme
+  const [selectedTheme, setSelectedTheme] = useState("dracula"); //default
+
   const fileExt = {
     javascript: "main.js",
     java: "main.java",
@@ -61,6 +64,16 @@ function EditorPage() {
             console.log(`${username} joined`);
           }
           setClients(clients);
+
+          /////   if anthing goes wrong, comment thsi //////
+          socketRef.current.emit(ACTIONS.JOINED, {
+            code: codeRef.current,
+            socketId,
+          });
+
+          ///// till here //////
+
+          // auto-sync in the  beggining
           socketRef.current.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
             socketId,
@@ -86,14 +99,38 @@ function EditorPage() {
     };
   }, []);
 
+  //// handle copy
+  async function copyRoomId() {
+    try {
+      await navigator.clipboard.writeText(roomId);
+      toast.success("Room ID has been copied to your clipboard");
+    } catch (err) {
+      toast.error("Couldn't copy the Room ID");
+      console.log(err);
+    }
+  }
+
+  //// Leave room
+
+  function handleLeaveRoom() {
+    reactNavigator("/");
+    toast.success("You left the Room");
+  }
+
+  // handle theme
+
+  const handleThemeChange = (e) => setSelectedTheme(e.target.value);
+
   if (!location.state) {
     return <Navigate to="/" />;
   }
+
   function handleLangSelect(e) {
     console.log(e.target.value);
     setCurrentLanguage(e.target.value);
     setFilename(fileExt[e.target.value]);
   }
+
   async function handleCompileClick(e) {
     e.preventDefault();
     // scroll
@@ -103,6 +140,7 @@ function EditorPage() {
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: "smooth" });
     }
+
     //////
     let textbox = document.querySelector("#stdin-text");
     console.log(textbox.value);
@@ -116,6 +154,7 @@ function EditorPage() {
     setDataRecieved(dataRecieved);
     setCompiled(true);
   }
+
   return (
     <div className="main-wrap">
       <div className="aside">
@@ -134,6 +173,30 @@ function EditorPage() {
               <option value={"python"}>Python</option>
               <option value={"java"}>Java</option>
               <option value={"c"}>C</option>
+            </select>
+          </div>
+          <div className="language-select select-theme">
+            <p className="select-lang label-theme">Select theme</p>
+            <select
+              className="combo-box"
+              value={selectedTheme}
+              onChange={handleThemeChange}
+            >
+              <option value="dracula">Dracula</option>
+              <option value="monokai">Monokai</option>
+              <option value="solarized">Solarized Dark</option>
+              <option value="material">Material</option>
+              <option value="cobalt">Cobalt</option>
+              <option value="tomorrow-night-bright">Tomorrow Night</option>
+              <option value="base16-light">Base16 Light</option>
+              <option value="ayu-dark">Ayu Dark</option>
+              <option value="zenburn">Zenburn</option>
+              <option value="3024-night">3024 Night</option>
+              <option value="material-darker">Material Darker</option>
+              <option value="neo">Neo</option>
+              <option value="paraiso-dark">Paraiso Dark</option>
+              <option value="seti">Seti</option>
+              <option value="xq-dark">Xq Dark</option>
             </select>
           </div>
 
@@ -157,8 +220,12 @@ function EditorPage() {
             ))}
           </div>
         </div>
-        <button className="copy-btn btn">Copy ROOM ID</button>
-        <button className="leave-btn btn">Leave</button>
+        <button className="copy-btn btn" onClick={copyRoomId}>
+          Copy ROOM ID
+        </button>
+        <button className="leave-btn btn" onClick={handleLeaveRoom}>
+          Leave
+        </button>
       </div>
       <div className="editor-wrap">
         {/* Pass code and setCode as props */}
@@ -167,6 +234,11 @@ function EditorPage() {
           roomId={roomId}
           code={code}
           setCode={setCode}
+          onCodeChange={(code) => {
+            codeRef.current = code;
+          }}
+          selectedTheme={selectedTheme}
+          currentLanguage={currentLanguage}
         />
 
         {/* <YourComponent code={code} /> */}
