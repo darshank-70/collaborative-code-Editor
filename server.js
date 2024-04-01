@@ -57,6 +57,11 @@ io.on("connection", (socket) => {
     delete userSocketMap[socket.id];
     socket.leave();
   });
+
+  // message
+  socket.on("user-message", (message) => {
+    io.emit("message", message);
+  });
 });
 
 const PORT = 8000;

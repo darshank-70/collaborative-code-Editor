@@ -2,6 +2,7 @@ import React, { StrictMode, useEffect, useRef, useState } from "react";
 import Client from "../components/Client";
 import Editor from "../components/Editor";
 import Output from "../components/Output";
+import Messeneger from "../components/messenger";
 import { initSocket } from "../socket";
 import ACTIONS from "../Actions";
 import toast from "react-hot-toast";
@@ -28,6 +29,9 @@ function EditorPage() {
   const [currentLanguage, setCurrentLanguage] = useState("javascript");
   const [filename, setFilename] = useState("main.js");
   const [stdin, setStdin] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [curUser, setCurUser] = useState("");
 
   //theme
   const [selectedTheme, setSelectedTheme] = useState("dracula"); //default
@@ -65,7 +69,7 @@ function EditorPage() {
           }
           setClients(clients);
 
-          /////   if anthing goes wrong, comment thsi //////
+          /////   if anthing goes wrong, comment this code //////
           socketRef.current.emit(ACTIONS.JOINED, {
             code: codeRef.current,
             socketId,
@@ -150,13 +154,13 @@ function EditorPage() {
       filename,
       textbox.value
     );
-    console.log(dataRecieved);
+    // console.log(dataRecieved);
     setDataRecieved(dataRecieved);
     setCompiled(true);
   }
 
   return (
-    <div className="main-wrap">
+    <div className={`main-wrap ${isOpen ? "overlay" : ""}`}>
       <div className="aside">
         <div className="aside-inner">
           <div className="logo">
@@ -204,14 +208,23 @@ function EditorPage() {
             <label className="label-input"> Inputs: </label>
             <input type="text" placeholder="Standard input" id="stdin-text" />
           </div>
-          <div className="compile-button">
-            <a
-              href="#output-window"
-              onClick={handleCompileClick}
-              className="run-btn"
-            >
-              Run
-            </a>
+          <div className="container-run-chat">
+            <div className="compile-button">
+              <a
+                href="#output-window"
+                onClick={handleCompileClick}
+                className="run-btn"
+              >
+                Run
+              </a>
+            </div>
+            <button className="message-icon" onClick={() => setIsOpen(!isOpen)}>
+              <img
+                src="/message-icon.svg"
+                alt="message-icon"
+                className="message-icon-image"
+              />
+            </button>
           </div>
           <h3>Connected</h3>
           <div className="clients-list">
@@ -245,6 +258,13 @@ function EditorPage() {
         {/* {console.log("working code:  ", code)} */}
         {isCompiled && dataRecieved && <Output data={dataRecieved} />}
       </div>
+
+      <Messeneger
+        socketRef={socketRef}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        username={location.state.username}
+      />
     </div>
   );
 }
