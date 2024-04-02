@@ -1,12 +1,17 @@
 import { io } from "socket.io-client";
 
-export const initSocket = async () => {
-  const options = {
-    "force new connection": true,
-    reconnectionAttempt: "Infinity",
-    timeout: 10000,
-    transports: ["websocket"],
-  };
+let socketInstance = null;
 
-  return io(process.env.REACT_APP_BACKEND_URL, options);
+export const initSocket = () => {
+  if (!socketInstance) {
+    const options = {
+      reconnectionAttempts: Infinity,
+      timeout: 10000,
+      transports: ["websocket"],
+    };
+
+    socketInstance = io(process.env.REACT_APP_BACKEND_URL, options);
+  }
+
+  return socketInstance;
 };

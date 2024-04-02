@@ -13,6 +13,7 @@ import {
   useParams,
 } from "react-router-dom";
 import compileCode from "../controller/compileCode";
+import settingsImage from "../assets/gear.png";
 
 //****************** */
 
@@ -32,6 +33,7 @@ function EditorPage() {
   const [isOpen, setIsOpen] = useState(false);
 
   const [curUser, setCurUser] = useState("");
+  const [isRunning, setIsRunning] = useState(false);
 
   //theme
   const [selectedTheme, setSelectedTheme] = useState("dracula"); //default
@@ -136,6 +138,7 @@ function EditorPage() {
   }
 
   async function handleCompileClick(e) {
+    setIsRunning(true);
     e.preventDefault();
     // scroll
 
@@ -157,6 +160,7 @@ function EditorPage() {
     // console.log(dataRecieved);
     setDataRecieved(dataRecieved);
     setCompiled(true);
+    setIsRunning(false);
   }
 
   return (
@@ -213,19 +217,24 @@ function EditorPage() {
               <a
                 href="#output-window"
                 onClick={handleCompileClick}
-                className="run-btn"
+                className={`run-btn ${isRunning ? "running" : ""}`}
               >
-                Run
+                <img
+                  src={settingsImage}
+                  alt="Settings"
+                  className={`settings-png ${isRunning ? "spinning" : ""}`}
+                />
+                {isRunning ? "Running" : "Run"}
               </a>
             </div>
-            <button className="message-icon" onClick={() => setIsOpen(!isOpen)}>
-              <img
-                src="/message-icon.svg"
-                alt="message-icon"
-                className="message-icon-image"
-              />
-            </button>
           </div>
+          <button className="message-icon" onClick={() => setIsOpen(!isOpen)}>
+            <img
+              src="/message-icon.svg"
+              alt="message-icon"
+              className="message-icon-image"
+            />
+          </button>
           <h3>Connected</h3>
           <div className="clients-list">
             {clients.map((client) => (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Avatar from "react-avatar";
 
 function Messeneger({ socketRef, isOpen, setIsOpen, username }) {
   const [userMessage, setUserMessage] = useState("");
@@ -51,7 +52,7 @@ function Messeneger({ socketRef, isOpen, setIsOpen, username }) {
             {messages.map((message, index) => (
               <div key={index} className="individual-message">
                 <p className="label-username">{message.username}</p>
-                <p className="label-message">{message.message}</p>
+                <p className="label-message sent-by-me">{message.message}</p>
                 <hr />
               </div>
             ))}

@@ -79,10 +79,12 @@ input {
 
 .aside {
   background: #1c1e29;
-  padding: 16px;
+  padding: 21px;
   color: #fff;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 50px);
+  margin-bottom: 22%;
 }
 .aside-inner {
   flex: 1;
@@ -170,7 +172,9 @@ input {
 }
 
 .run-btn {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   background-color: #2980b9;
   color: #fff;
@@ -250,9 +254,8 @@ input {
   /* position: fixed; */
   /* left: 94%; */
   cursor: pointer;
-
-  margin-top: 10px;
-
+  margin-top: 15px;
+  width: 125px;
   border: none;
   padding: 10px;
   padding-bottom: 5px;
@@ -283,7 +286,7 @@ input {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  backdrop-filter: #fff blur(5px);
   z-index: 999;
 }
 
@@ -292,14 +295,32 @@ input {
   color: #041227;
   font-weight: bold;
   margin: none !important;
+  background-color: burlywood;
+  width: fit-content;
+  padding: 8px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .label-message {
   padding-left: 30px;
   margin: none !important;
   /* width: 300px; */
+  background-color: lightslategrey;
+  padding: 7px;
+  width: fit-content;
+  border-radius: 22px;
 }
+.label-message .sent-by-me {
+  /* margin: none !important; */
+  margin-right: 0%;
 
+  /* width: 300px; */
+  background-color: lightslategrey;
+  padding: 7px;
+  width: fit-content;
+  border-radius: 22px;
+}
 .send {
   padding: 5px 10px;
   border: none;
@@ -332,4 +353,26 @@ input {
 
 /* .individual-message {
   width: 300px;
+  
 } */
+/*  */
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.settings-png {
+  width: 35px;
+  height: 35px;
+  padding: 7px;
+}
+.spinning {
+  width: 35px;
+  height: 35px;
+  padding: 7px;
+  animation: spin 1s infinite;
+}
+
+.running {
+  cursor: not-allowed;
+}
