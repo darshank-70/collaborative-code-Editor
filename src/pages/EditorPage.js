@@ -250,7 +250,6 @@ function EditorPage() {
         </button>
       </div>
       <div className="editor-wrap">
-        {/* Pass code and setCode as props */}
         <Editor
           socketRef={socketRef}
           roomId={roomId}

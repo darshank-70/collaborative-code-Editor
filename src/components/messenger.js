@@ -40,7 +40,7 @@ function Messeneger({ socketRef, isOpen, setIsOpen, username }) {
   // console.log(socketRef);
   return (
     <div className="modal-container">
-      <div className={`modal ${isOpen ? "active" : ""}`}>
+      <div className={`modal glass ${isOpen ? "active" : ""}`}>
         <div>
           <div className="chat-and-close">
             <p className="messenger-header">CHAT BOX</p>
@@ -51,9 +51,10 @@ function Messeneger({ socketRef, isOpen, setIsOpen, username }) {
           <div className="messages">
             {messages.map((message, index) => (
               <div key={index} className="individual-message">
-                <p className="label-username">{message.username}</p>
-                <p className="label-message sent-by-me">{message.message}</p>
-                <hr />
+                <div className="label-username">{message.username}</div>
+                <div className="label-message sent-by-me">
+                  {message.message}
+                </div>
               </div>
             ))}
           </div>
