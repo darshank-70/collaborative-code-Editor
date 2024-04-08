@@ -3,7 +3,7 @@ const Output = ({ data }) => {
   console.log(data);
   const { stdout, error, stderr } = data;
   return (
-    <div className="output-window" id="output-window">
+    <div className="output-window">
       <h3>OUTPUT WINDOW</h3>
       {console.log("OUtput components data", data.data)}
       {stdout && <pre>{stdout}</pre>}

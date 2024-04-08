@@ -86,7 +86,10 @@ function Editor({
   }, [socketRef.current]);
 
   return (
-    <textarea id="realtime-editor" style={{ fontSize: "12px" }}></textarea>
+    <>
+      <p id="code-driver"></p>
+      <textarea id="realtime-editor" style={{ fontSize: "12px" }}></textarea>
+    </>
   );
 }
 

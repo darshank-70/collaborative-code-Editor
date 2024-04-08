@@ -14,7 +14,8 @@ import {
 } from "react-router-dom";
 import compileCode from "../controller/compileCode";
 import settingsImage from "../assets/gear.png";
-
+import showQuickTour from "../controller/showQuickTour";
+import "driver.js/dist/driver.css";
 //****************** */
 
 function EditorPage() {
@@ -165,12 +166,12 @@ function EditorPage() {
 
   return (
     <div className={`main-wrap ${isOpen ? "overlay" : ""}`}>
-      <div className="aside">
+      <div className="aside" onLoad={showQuickTour}>
         <div className="aside-inner">
           <div className="logo">
             <img className="logo-image" src="" alt="logo" />
           </div>
-          <div className="language-select">
+          <div className="language-select" id="language-driver">
             <p className="select-lang">Select Language : </p>
             <select
               onChange={handleLangSelect}
@@ -208,13 +209,14 @@ function EditorPage() {
             </select>
           </div>
 
-          <div className="stdin-textbox">
+          <div className="stdin-textbox" id="stdin-driver">
             <label className="label-input"> Inputs: </label>
             <input type="text" placeholder="Standard input" id="stdin-text" />
           </div>
           <div className="container-run-chat">
             <div className="compile-button">
               <a
+                id="run-driver"
                 href="#output-window"
                 onClick={handleCompileClick}
                 className={`run-btn ${isRunning ? "running" : ""}`}
@@ -228,7 +230,11 @@ function EditorPage() {
               </a>
             </div>
           </div>
-          <button className="message-icon" onClick={() => setIsOpen(!isOpen)}>
+          <button
+            id="chat-driver"
+            className="message-icon"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             <img
               src="/message-icon.svg"
               alt="message-icon"
@@ -248,6 +254,9 @@ function EditorPage() {
         <button className="leave-btn btn" onClick={handleLeaveRoom}>
           Leave
         </button>
+        <button className="quick-tour-btn btn" onClick={showQuickTour}>
+          Quick tour
+        </button>
       </div>
       <div className="editor-wrap">
         <Editor
@@ -265,6 +274,7 @@ function EditorPage() {
         {/* <YourComponent code={code} /> */}
         {/* {console.log("working code:  ", code)} */}
         {isCompiled && dataRecieved && <Output data={dataRecieved} />}
+        <p id="output-driver"></p>
       </div>
 
       <Messeneger
