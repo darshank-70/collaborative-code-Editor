@@ -271,7 +271,7 @@ input {
   color: #fff;
   margin-left: 20px;
   position: relative;
-  /* min-height: 200px; */
+  min-height: 100px !important;
 }
 
 .message-icon-image {

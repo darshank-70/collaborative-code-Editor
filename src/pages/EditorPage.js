@@ -266,7 +266,6 @@ function EditorPage() {
         {/* {console.log("working code:  ", code)} */}
         {isCompiled && dataRecieved && <Output data={dataRecieved} />}
       </div>
-
       <Messeneger
         socketRef={socketRef}
         isOpen={isOpen}

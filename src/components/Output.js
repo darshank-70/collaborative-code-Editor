@@ -5,7 +5,7 @@ const Output = ({ data }) => {
   return (
     <div className="output-window" id="output-window">
       <h3>OUTPUT WINDOW</h3>
-      {console.log("OUtput components data", data.data)}
+      {/* {console.log("OUtput components data", data.data)} */}
       {stdout && <pre>{stdout}</pre>}
       {error && <div className="error">{error}</div>}
       {error && (
