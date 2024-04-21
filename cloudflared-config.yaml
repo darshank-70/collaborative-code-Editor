@@ -1,0 +1,11 @@
+tunnel: collaborative_code_editor
+credentials-file: D:/Desktop/8-sem/major-project/cloudflared-config.yaml
+
+# routes
+ingress:
+  - hostname: example.com
+    service: http://localhost:3000
+  - hostname: api.example.com
+    service: http://localhost:9000
+  - hostname: server.example.com
+    service: http://localhost:8000
