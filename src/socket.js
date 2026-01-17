@@ -4,14 +4,15 @@ let socketInstance = null;
 
 export const initSocket = () => {
   if (!socketInstance) {
+
     const options = {
-      reconnectionAttempts: Infinity,
-      timeout: 10000,
       transports: ["websocket"],
+      reconnectionAttempts: Infinity,
+      timeout: 20000,
     };
-
-    socketInstance = io(process.env.REACT_APP_BACKEND_URL, options);
+    
+    const socketInstance = io(window.location.origin, options);
+    
   }
-
   return socketInstance;
 };

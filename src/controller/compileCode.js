@@ -5,7 +5,7 @@ const compileCode = async (code, language, filename, stdin) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "b0e0ee4f-07b8-4206-a631-112e16b75234", // Replace with your Glot.io API token
+        Authorization: 
       },
       body: JSON.stringify({
         language: language,
