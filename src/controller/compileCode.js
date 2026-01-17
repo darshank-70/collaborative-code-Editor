@@ -1,7 +1,7 @@
 const compileCode = async (code, language, filename, stdin) => {
   console.log(code);
   try {
-    const response = await fetch("http://localhost:9000/compile", {
+    const response = await fetch("/compile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
