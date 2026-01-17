@@ -5,7 +5,7 @@ const compileCode = async (code, language, filename, stdin) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: 
+        Authorization: process.env.GLOT_API_KEY,
       },
       body: JSON.stringify({
         language: language,
